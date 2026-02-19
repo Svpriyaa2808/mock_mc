@@ -104,3 +104,51 @@ export interface Payment {
   status: PaymentStatus;
   reference?: string;
 }
+
+// ── Inventory ────────────────────────────────────────────────────────────────
+
+export type InventoryStatus = "In Stock" | "Reserved" | "Sold" | "In Transit" | "Low Stock" | "Out of Stock";
+
+export type StockLocation = "Showroom" | "Warehouse" | "Service Bay" | "In Transit";
+
+export type MotorcycleCategory = "Sport" | "Cruiser" | "Commuter" | "Adventure" | "Naked" | "Scooter" | "Classic";
+
+export interface InventoryUnit {
+  id: string;
+  sku: string;
+  vin: string;
+  brand: Brand;
+  model: string;
+  year: number;
+  color: string;
+  category: MotorcycleCategory;
+  engineCC: number;
+  costPrice: number;
+  sellingPrice: number;
+  status: InventoryStatus;
+  location: StockLocation;
+  receivedDate: string;
+  poNumber: string;
+  grnNumber: string;
+  reservedFor?: string;
+  soldDate?: string;
+  notes?: string;
+}
+
+export interface InventoryModel {
+  sku: string;
+  brand: Brand;
+  model: string;
+  year: number;
+  category: MotorcycleCategory;
+  engineCC: number;
+  costPrice: number;
+  sellingPrice: number;
+  reorderPoint: number;
+  reorderQty: number;
+  totalStock: number;
+  availableStock: number;
+  reservedStock: number;
+  inTransitStock: number;
+  soldMTD: number;
+}
