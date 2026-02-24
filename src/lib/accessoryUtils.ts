@@ -3,38 +3,21 @@
  *
  * Loads accessories from src/data/accessories.json and provides
  * functions to build Purchase Orders from selected accessories.
+ *
+ * Types are defined in accessoryTypes.ts — import from there.
  */
 
 import accessories from "@/data/accessories.json";
 import type { PurchaseOrder, POItem, Brand } from "./types";
 import { vendors } from "./data";
+import type { Accessory, AccessoryOrderLine, AccessoryStockSummary, AccessoryCategory } from "./accessoryTypes";
+import { deriveStockStatus } from "./accessoryTypes";
 
-// ── Accessory type (matches the JSON schema) ──────────────────────────────────
-
-export interface Accessory {
-  id: string;
-  name: string;
-  brand: Brand;
-  category: string;
-  articleNumber: string;
-  description: string;
-  unit: string;
-  costPrice: number;
-  sellingPrice: number;
-  qty: number;
-  reorderPoint: number;
-  vendor: string;
-}
+// Re-export types so callers only need one import path
+export type { Accessory, AccessoryOrderLine, AccessoryStockSummary, AccessoryCategory } from "./accessoryTypes";
 
 // Cast the raw JSON to the typed list
 export const accessoryInventory: Accessory[] = accessories as Accessory[];
-
-// ── Selection item: which accessory + how many to order ──────────────────────
-
-export interface AccessoryOrderLine {
-  accessory: Accessory;
-  orderQty: number;
-}
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
 
@@ -54,9 +37,9 @@ export function getAccessoriesByCategory(category: string): Accessory[] {
 }
 
 /** All unique categories present in the accessory list */
-export const accessoryCategories: string[] = [
+export const accessoryCategories: AccessoryCategory[] = [
   ...new Set(accessoryInventory.map((a) => a.category)),
-];
+] as AccessoryCategory[];
 
 // ── PO Generator ─────────────────────────────────────────────────────────────
 
@@ -171,14 +154,15 @@ export function generateLowStockPOs(): Omit<PurchaseOrder, "id">[] {
 
 // ── Stock value summary ───────────────────────────────────────────────────────
 
-export function getAccessoryStockSummary() {
+export function getAccessoryStockSummary(): AccessoryStockSummary {
   return {
-    totalProducts: accessoryInventory.length,
-    totalUnits: accessoryInventory.reduce((s, a) => s + a.qty, 0),
+    totalProducts:  accessoryInventory.length,
+    totalUnits:     accessoryInventory.reduce((s, a) => s + a.qty, 0),
     stockValueCost: accessoryInventory.reduce((s, a) => s + a.costPrice * a.qty, 0),
     stockValueSelling: accessoryInventory.reduce((s, a) => s + a.sellingPrice * a.qty, 0),
-    lowStockCount: getLowStockAccessories().length,
-    brands: [...new Set(accessoryInventory.map((a) => a.brand))],
+    lowStockCount:  accessoryInventory.filter((a) => deriveStockStatus(a) === "Low Stock").length,
+    outOfStockCount: accessoryInventory.filter((a) => deriveStockStatus(a) === "Out of Stock").length,
+    brands:     [...new Set(accessoryInventory.map((a) => a.brand))],
     categories: accessoryCategories,
   };
 }
