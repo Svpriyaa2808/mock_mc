@@ -13,8 +13,6 @@ const tabs = [
   { href: "/purchase/reports",   label: "Reports" },
 ];
 
-const brands = ["Suzuki", "Honda", "Kawasaki", "Vogue", "R.Enfield", "Indian"];
-
 export default function TopNav() {
   const pathname = usePathname();
 
@@ -23,16 +21,8 @@ export default function TopNav() {
       {/* Brand bar + title */}
       <div className="flex items-center justify-between px-8 py-4 border-b border-gray-700">
         <div>
-          <div className="text-xl font-bold">MotoERP</div>
+          <div className="text-xl font-bold">BikeMe Now</div>
           <div className="text-xs text-gray-400">Motorcycle Dealer System</div>
-        </div>
-        <div className="flex items-center gap-2">
-          <span className="text-xs text-gray-500 uppercase tracking-wider mr-1">Brands:</span>
-          {brands.map((b) => (
-            <span key={b} className="text-xs bg-gray-700 text-gray-300 px-2 py-0.5 rounded-full">
-              {b}
-            </span>
-          ))}
         </div>
         <div className="text-right text-xs text-gray-400">
           <div className="font-medium text-gray-300">Zulkifli Ahmad</div>

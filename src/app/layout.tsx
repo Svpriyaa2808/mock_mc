@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "MotoERP — Motorcycle Dealer Management",
-  description: "ERP system for motorcycle dealer — Suzuki, Honda, Kawasaki, Vogue, Royal Enfield, Indian",
+  title: "BikeMe Now — Motorcycle Dealer Management",
+  description: "ERP system for motorcycle dealer",
 };
 
 export default function RootLayout({

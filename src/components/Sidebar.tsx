@@ -19,19 +19,8 @@ export default function Sidebar() {
   return (
     <aside className="w-64 min-h-screen bg-gray-900 text-white flex flex-col shrink-0">
       <div className="px-6 py-5 border-b border-gray-700">
-        <div className="text-xl font-bold">MotoERP</div>
+        <div className="text-xl font-bold">BikeMe Now</div>
         <div className="text-xs text-gray-400 mt-0.5">Motorcycle Dealer System</div>
-      </div>
-
-      <div className="px-4 py-3 border-b border-gray-700">
-        <div className="text-xs text-gray-500 uppercase tracking-wider mb-2">Brands</div>
-        <div className="flex flex-wrap gap-1">
-          {["Suzuki", "Honda", "Kawasaki", "Vogue", "R.Enfield", "Indian"].map((b) => (
-            <span key={b} className="text-xs bg-gray-700 text-gray-300 px-2 py-0.5 rounded-full">
-              {b}
-            </span>
-          ))}
-        </div>
       </div>
 
       <nav className="flex-1 px-3 py-4">
